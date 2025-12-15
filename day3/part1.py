@@ -1,4 +1,4 @@
-banks = open("Advent_of_code/day/input.txt").read().split("\n")
+banks = open("Advent_of_code/day3/input.txt").read().split("\n")
 
 total_joltaje=0
 
