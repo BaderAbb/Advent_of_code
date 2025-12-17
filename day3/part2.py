@@ -1,31 +1,38 @@
-banks = open("Advent_of_code/day3/input.txt").read().split("\n")
+banks = open("Advent_of_code/day3/input.txt").read().splitlines()
 total_joltaje=0
+print(banks)
 
 for bank in banks:
+    print("#### BANK ####")
     highest_joltage=""
-    
+    remaining_elimination = len(bank) - 12 
     index=0
-    for remaining in range(12, -1, -1):
-        first_baterie=str(bank)[index]
-        changed=False
-        if remaining == 0:
-            for i, baterie in enumerate(str(bank)[index:]):
-                if int(first_baterie) < int(baterie):
-                    first_baterie = baterie
-        else:
-            for i, baterie in enumerate(str(bank)[index:-remaining]):
-                if int(first_baterie) < int(baterie):
-                    first_baterie = baterie
-                    index = index + i
-                    changed = True
-            if not changed:
-                    index+=1
-            
-        highest_joltage += first_baterie
-    
+    for remaining in range(11, -1, -1):
+        highest_batterie = bank[index]
+
+        if remaining_elimination == 0:
+            highest_batterie += bank[index:]
+            highest_joltage += highest_batterie
+            break
+
+        changed = False
+        for jumps, batterie in enumerate(bank[index:(index+remaining_elimination+1)]):
+            if int(batterie) > int(highest_batterie):
+                highest_batterie = str(batterie)
+                changed = True
+                jump = jumps
+
+        if changed:
+            remaining_elimination -= jump
+            index+=jump   
+
+        index+=1
+        highest_joltage += highest_batterie
+
+    print(highest_joltage)
     total_joltaje += int(highest_joltage)
     
-print(f"{total_joltaje}")
+print(f"Voltaje total: {total_joltaje}")
 
 
 
