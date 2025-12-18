@@ -11,7 +11,7 @@ for bank in banks:
         highest_batterie = bank[index]
 
         if remaining_elimination == 0:
-            highest_batterie += bank[index:]
+            highest_batterie = bank[index:]
             highest_joltage += highest_batterie
             break
 
