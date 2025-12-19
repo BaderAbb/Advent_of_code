@@ -1,29 +1,28 @@
 ranges=[]
-values=[]
-fresh_food=0
-
 
 with open("Advent_of_code/day5/input.txt") as f:
     for line in f.read().splitlines():
         if "-" in line:
             start, end = map(int, line.split("-"))
-            ranges.append((start, end))
-        else:
-            if line.strip():
-                values.append(int(line))
+            ranges.append([start, end])
 
-def is_in_range(start, end, value):
-    if start <= value <= end:
-        return True
+ranges = sorted(ranges, key=lambda start: start[0])
+
+idx = 0
+while idx < len(ranges)-1:
+    end = ranges[idx][1]
+    next_start = ranges[idx+1][0]
+    next_end = ranges[idx+1][1]
+
+
+    if next_start <= end:
+        ranges[idx][1] = max(end, next_end)
+        del ranges[idx+1]
     else:
-        return False
+        idx+=1
 
-for ingredient in values:
-    for range in ranges:
-        if is_in_range(range[0], range[1], ingredient):
-            fresh_food+=1
-            break
-        
-
-print(f"{fresh_food}")
+total_fresh_ID=0
+for element in ranges:
+    total_fresh_ID += element[1] - element[0] + 1
     
+print(total_fresh_ID)           
